@@ -37,9 +37,12 @@ tmux set-window-option -gt ${EPISODE} pane-active-border-style "fg=colour250"
 tmux set-window-option -gt ${EPISODE} window-status-format "#I:#W "
 
 # Windows
-tmux new-window -t ${EPISODE} -n 'install Docker'
-tmux split-window -t ${EPISODE} -v bash
-tmux split-window -t ${EPISODE} -v pwd
+tmux new-window -t ${EPISODE} -n 'install Docker' \
+    docker run --rm -it --privileged --hostname=debian9.1 debian:9.1
+tmux split-window -t ${EPISODE} -v \
+    docker run --rm -it --privileged --hostname=ubuntu16.04 ubuntu:16.04
+tmux split-window -t ${EPISODE} -v \
+    docker run --rm -it --privileged --hostname=centos7 centos:7
 
 tmux select-layout -t ${EPISODE} even-vertical
 
