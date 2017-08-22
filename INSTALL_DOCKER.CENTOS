@@ -1,0 +1,18 @@
+#
+# Installation instruction for CentOS 7
+#
+yum remove docker \
+           docker-common \
+           docker-selinux \
+           docker-engine 2> /dev/null
+
+yum install -y yum-utils device-mapper-persistent-data lvm2
+yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+
+echo Expected fingerprint: 060A 61C5 1B55 8A7F 742B 77AA C52F EB6B 621E 9F35
+echo Press ^C if not that one!!!
+yum makecache fast
+
+yum install docker-ce
