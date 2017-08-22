@@ -4,11 +4,13 @@
 #
 #1
 # Remove previously installed docker
-apt-get remove docker docker-engine docker.io 2> /dev/null
+apt-get remove docker \
+               docker-engine \
+               docker.io
 #2
 # Install some pre-requisites
 apt-get update
-apt-get install \
+apt-get install -y \
      apt-transport-https \
      ca-certificates \
      curl \
@@ -19,7 +21,7 @@ apt-get install \
 curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
 apt-key fingerprint 0EBFCD88 | tee \
     | grep '9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88' \
-      || {echo Fingerprint do no match; exit 1}
+      || { echo Fingerprint do no match; exit 1 }
 #4
 # Add Docker repository
 add-apt-repository \
@@ -29,4 +31,4 @@ add-apt-repository \
 #5
 #Install Docker (and check repository signature)
 apt-get update
-apt-get install docker-ce
+apt-get install -y docker-ce

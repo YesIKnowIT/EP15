@@ -1,12 +1,12 @@
 # Install some pre-requisites
 apt-get update
-apt-get install \
+apt-get install -y \
      apt-transport-https \
      ca-certificates \
      curl \
      gnupg2 \
      software-properties-common
 # Trusty only
-sudo apt-get install \
+apt-get install \
     linux-image-extra-$(uname -r) \
     linux-image-extra-virtual

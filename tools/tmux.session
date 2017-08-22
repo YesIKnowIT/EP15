@@ -30,21 +30,36 @@ tmux set-option -t ${EPISODE} default-command "/bin/bash"
 
 tmux set-option -t ${EPISODE} status-style "fg=white,bg=black"
 tmux set-option -t ${EPISODE} status-right "https://yesik.it/${EPISODE}"
+tmux set-option -t ${EPISODE} status-right "https://yesik.it/${EPISODE}"
 tmux set-window-option -gt ${EPISODE} window-status-activity-style "fg=white,bg=black"
 tmux set-window-option -gt ${EPISODE} window-status-bell-style "fg=white,bg=black"
 tmux set-window-option -gt ${EPISODE} pane-border-style "fg=colour250"
 tmux set-window-option -gt ${EPISODE} pane-active-border-style "fg=colour250"
 tmux set-window-option -gt ${EPISODE} window-status-format "#I:#W "
+tmux set-window-option -gt ${EPISODE} pane-border-status top
 
 # Windows
 tmux new-window -t ${EPISODE} -n 'install Docker' \
-    docker run --rm -it --privileged --hostname=debian9.1 -v $PWD/DEBIAN:/root debian:9.1
-tmux split-window -t ${EPISODE} -v \
-    docker run --rm -it --privileged --hostname=ubuntu16.04 -v $PWD/UBUNTU:/root ubuntu:16.04
-tmux split-window -t ${EPISODE} -v \
-    docker run --rm -it --privileged --hostname=centos7 -v $PWD/CENTOS:/root centos:7
+    bash -c '
+        printf "\033]2;%s\033\\" "CentOS 7"
+        docker run --rm -it --privileged --hostname=centos7 -v $PWD/CENTOS:/root centos:7
+    '
 
-tmux select-layout -t ${EPISODE} even-vertical
+tmux split-window -t ${EPISODE} -h \
+    bash -c '
+        printf "\033]2;%s\033\\" "Ubuntu 16.04"
+        docker run --rm -it --privileged --hostname=ubuntu16.04 -v $PWD/UBUNTU:/root ubuntu:16.04
+    '
+
+tmux split-window -t ${EPISODE} -v \
+    bash -c '
+        printf "\033]2;%s\033\\" "Debian 9.1"
+        docker run --rm -it --privileged --hostname=debian9.1 -v $PWD/DEBIAN:/root debian:9.1
+    '
+
+tmux set-window-option -t ${EPISODE}:1.1 pane-border-format '#{pane_title}'
+
+#tmux select-layout -t ${EPISODE} even-vertical
 tmux set-window-option -gt ${EPISODE} synchronize-panes on
 
 # House keeping
