@@ -38,13 +38,14 @@ tmux set-window-option -gt ${EPISODE} window-status-format "#I:#W "
 
 # Windows
 tmux new-window -t ${EPISODE} -n 'install Docker' \
-    docker run --rm -it --privileged --hostname=debian9.1 debian:9.1
+    docker run --rm -it --privileged --hostname=debian9.1 -v $PWD/DEBIAN:/root debian:9.1
 tmux split-window -t ${EPISODE} -v \
-    docker run --rm -it --privileged --hostname=ubuntu16.04 ubuntu:16.04
+    docker run --rm -it --privileged --hostname=ubuntu16.04 -v $PWD/UBUNTU:/root ubuntu:16.04
 tmux split-window -t ${EPISODE} -v \
-    docker run --rm -it --privileged --hostname=centos7 centos:7
+    docker run --rm -it --privileged --hostname=centos7 -v $PWD/CENTOS:/root centos:7
 
 tmux select-layout -t ${EPISODE} even-vertical
+tmux set-window-option -gt ${EPISODE} synchronize-panes on
 
 # House keeping
 tmux kill-window -t ${EPISODE}:0 # This one has the wrong TERM
