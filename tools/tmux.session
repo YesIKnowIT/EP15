@@ -1,5 +1,10 @@
 #!/bin/bash
 
+[[ $(id -u) -eq 0 ]] || {
+    echo Sorry, I need to by run as root
+    exit 1
+}
+
 function tmux-edit-file() {
     tmux send-keys -t "$1" 'sleep 1 && clear' Enter
     tmux send-keys -t "$1" C-x C-e ':set noai' Enter i
@@ -17,6 +22,8 @@ function tmux-send-file() {
 }
 
 EPISODE=EP15
+
+# Setup
 tmux new-session -s ${EPISODE} -d
 tmux set-option -t ${EPISODE} default-terminal tmux
 tmux set-option -t ${EPISODE} default-command "/bin/bash"
@@ -29,12 +36,14 @@ tmux set-window-option -gt ${EPISODE} pane-border-style "fg=colour250"
 tmux set-window-option -gt ${EPISODE} pane-active-border-style "fg=colour250"
 tmux set-window-option -gt ${EPISODE} window-status-format "#I:#W "
 
+# Windows
 tmux new-window -t ${EPISODE} -n 'install Docker'
-tmux split-window -t ${EPISODE} -h
-tmux split-window -t ${EPISODE} -h
+tmux split-window -t ${EPISODE} -v bash
+tmux split-window -t ${EPISODE} -v pwd
 
-tmux select-layout -t ${EPISODE} even-horizontal
+tmux select-layout -t ${EPISODE} even-vertical
 
+# House keeping
 tmux kill-window -t ${EPISODE}:0 # This one has the wrong TERM
 tmux select-window -t ${EPISODE}:1
 tmux attach-session -t ${EPISODE}
