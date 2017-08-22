@@ -16,40 +16,25 @@ function tmux-send-file() {
     done
 }
 
+EPISODE=EP15
+tmux new-session -s ${EPISODE} -d
+tmux set-option -t ${EPISODE} default-terminal tmux
+tmux set-option -t ${EPISODE} default-command "/bin/bash"
 
-tmux new-session -s EP14 -d
-tmux set-option -t EP14 default-terminal tmux
-tmux set-option -t EP14 default-command "/bin/bash"
+tmux set-option -t ${EPISODE} status-style "fg=white,bg=black"
+tmux set-option -t ${EPISODE} status-right "https://yesik.it/${EPISODE}"
+tmux set-window-option -gt ${EPISODE} window-status-activity-style "fg=white,bg=black"
+tmux set-window-option -gt ${EPISODE} window-status-bell-style "fg=white,bg=black"
+tmux set-window-option -gt ${EPISODE} pane-border-style "fg=colour250"
+tmux set-window-option -gt ${EPISODE} pane-active-border-style "fg=colour250"
+tmux set-window-option -gt ${EPISODE} window-status-format "#I:#W "
 
-tmux new-window -t EP14 -n 'shuf'
+tmux new-window -t ${EPISODE} -n 'install Docker'
+tmux split-window -t ${EPISODE} -h
+tmux split-window -t ${EPISODE} -h
 
-tmux new-window -t EP14 -n 'grep'
-tmux split-window -t EP14 -v -l 8
-tmux select-pane -t EP14:grep.0
+tmux select-layout -t ${EPISODE} even-horizontal
 
-tmux new-window -t EP14 -n 'challenge'
-
-tmux set-option -t EP14 status-style "fg=white,bg=black"
-tmux set-option -t EP14 status-right "https://yesik.it/EP14"
-tmux set-window-option -gt EP14 window-status-activity-style "fg=white,bg=black"
-tmux set-window-option -gt EP14 window-status-bell-style "fg=white,bg=black"
-tmux set-window-option -gt EP14 pane-border-style "fg=colour250"
-tmux set-window-option -gt EP14 pane-active-border-style "fg=colour250"
-tmux set-window-option -gt EP14 window-status-format "#I:#W "
-
-tmux-send-file EP14:shuf.0 < COMMAND1 &
-tmux-send-file EP14:grep.0 < COMMAND2 &
-
-tmux-send-file EP14:grep.1 < <(cat << EOF
-	export EDITOR="source tools/histeditor"
-	clear
-
-EOF
-)&
-
-tmux-send-file EP14:challenge.0 < COMMAND8 &
-
-wait
-tmux kill-window -t EP14:0 # This one has the wrong TERM
-tmux select-window -t EP14:1
-tmux attach-session -t EP14
+tmux kill-window -t ${EPISODE}:0 # This one has the wrong TERM
+tmux select-window -t ${EPISODE}:1
+tmux attach-session -t ${EPISODE}
