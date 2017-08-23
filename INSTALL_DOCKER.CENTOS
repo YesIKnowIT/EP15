@@ -10,7 +10,9 @@ yum remove docker \
            docker-engine
 #2
 # Install some pre-requisites
-yum install -y yum-utils device-mapper-persistent-data lvm2
+yum install -y yum-utils \
+               device-mapper-persistent-data \
+               lvm2
 #3
 #4
 # Add Docker repository
@@ -22,4 +24,4 @@ yum-config-manager \
 echo Expected fingerprint: 060A 61C5 1B55 8A7F 742B 77AA C52F EB6B 621E 9F35
 echo Press ^C if not that one!!!
 yum makecache fast
-yum install docker-ce
+yum install -y docker-ce

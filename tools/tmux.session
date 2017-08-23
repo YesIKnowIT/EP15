@@ -39,7 +39,7 @@ tmux set-window-option -gt ${EPISODE} window-status-format "#I:#W "
 tmux set-window-option -gt ${EPISODE} pane-border-status top
 
 # Windows
-tmux new-window -t ${EPISODE} -n 'install Docker' \
+tmux new-window -t ${EPISODE} -n 'How to Install Docker' \
     bash -c '
         printf "\033]2;%s\033\\" "CentOS 7"
         docker run --rm -it --privileged --hostname=centos7 -v $PWD/CENTOS:/root centos:7
