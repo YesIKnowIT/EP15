@@ -22,13 +22,16 @@ apt-get install -y \
 #    linux-image-extra-virtual
 #3
 # Add the Docker gpg key (apt-based distro only)
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-echo Fingerprint should be 9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88
+REPO="https://download.docker.com/linux/ubuntu"
+curl -fsSL "${REPO}/gpg" | apt-key add -
+echo Fingerprint should be
+echo 9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88
 apt-key fingerprint 0EBFCD88
 #4
 # Add Docker repository
+REPO="https://download.docker.com/linux/ubuntu"
 add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   "deb [arch=amd64] ${REPO} \
    $(lsb_release -cs) \
    stable"
 #5

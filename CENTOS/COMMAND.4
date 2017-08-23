@@ -1,4 +1,5 @@
 # Add Docker repository
+REPO="https://download.docker.com/linux/centos"
 yum-config-manager \
     --add-repo \
-    https://download.docker.com/linux/centos/docker-ce.repo
+    ${REPO}/docker-ce.repo
