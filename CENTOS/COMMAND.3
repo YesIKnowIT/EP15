@@ -1,0 +1,8 @@
+# Download and check GPG key
+REPO="https://download.docker.com/linux/centos"
+# Expected fingerprint:
+# 060A 61C5 1B55 8A7F 742B 77AA C52F EB6B 621E 9F35
+curl -fsSL "${REPO}/gpg" > docker.centos.gpg
+gpg --no-option \
+    --with-fingerprint --keyid-format LONG \
+    docker.centos.gpg 2> /dev/null

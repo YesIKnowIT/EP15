@@ -14,17 +14,22 @@ yum install -y yum-utils \
                device-mapper-persistent-data \
                lvm2
 #3
+# Download and check GPG key
+REPO="https://download.docker.com/linux/centos"
+# Expected fingerprint:
+# 060A 61C5 1B55 8A7F 742B 77AA C52F EB6B 621E 9F35
+curl -fsSL "${REPO}/gpg" > docker.centos.gpg
+gpg --no-option \
+    --with-fingerprint --keyid-format LONG \
+    docker.centos.gpg 2> /dev/null
 #4
 # Add Docker repository
 REPO="https://download.docker.com/linux/centos"
+rpm --import docker.centos.gpg
 yum-config-manager \
     --add-repo \
     ${REPO}/docker-ce.repo
 #5
 #Install Docker (and check repository signature)
-echo Expected fingerprint:
-echo 060A 61C5 1B55 8A7F 742B
-echo 77AA C52F EB6B 621E 9F35
-echo Press ^C if not that one!!!
 yum makecache fast
 yum install -y docker-ce

@@ -1,6 +1,8 @@
-# Add the Docker gpg key (apt-based distro only)
+# Download and check GPG key
 REPO="https://download.docker.com/linux/debian"
-curl -fsSL "${REPO}/gpg" | apt-key add -
-echo Fingerprint should be
-echo 9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88
-apt-key fingerprint 0EBFCD88
+# Expected fingerprint:
+# 9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88
+curl -fsSL "${REPO}/gpg" > docker.debian.gpg
+gpg --no-option \
+    --with-fingerprint --keyid-format LONG \
+    docker.debian.gpg 2> /dev/null

@@ -23,7 +23,7 @@ function tmux-send-file() {
 
 EPISODE=EP15
 
-# Setup
+# Setup (targeting 106x26 terminal)
 tmux new-session -s ${EPISODE} -d
 tmux set-option -t ${EPISODE} default-terminal tmux
 tmux set-option -t ${EPISODE} default-command "/bin/bash"
@@ -51,7 +51,7 @@ tmux split-window -t ${EPISODE} -h \
         docker run --rm -it --privileged --hostname=ubuntu16.04 -v $PWD/UBUNTU:/root ubuntu:16.04
     '
 
-tmux split-window -t ${EPISODE} -v \
+tmux split-window -t ${EPISODE} -v -l 10 \
     bash -c '
         printf "\033]2;%s\033\\" "Debian 9.1"
         docker run --rm -it --privileged --hostname=debian9.1 -v $PWD/DEBIAN:/root debian:9.1
